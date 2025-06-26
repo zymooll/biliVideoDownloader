@@ -18,6 +18,9 @@ tempVideoFile='temp\\video.m4s'
 tempAudioFile='temp\\audio.m4s'
 cookies=None
 
+# example: infos=[['BV1HfK3zPEHE',0]]
+infos=[]
+
 #get qrcode
 def getQRCode():
     respLogin=requests.get('https://passport.bilibili.com/x/passport-login/web/qrcode/generate',headers=headers)
@@ -85,9 +88,6 @@ def removeTempFile():
     os.remove(tempAudioFile)
 
 login()
-print(cookies)
-
-infos=[['BV1HfK3zPEHE',0]]
 
 for info in infos:
     bvid=info[0]
