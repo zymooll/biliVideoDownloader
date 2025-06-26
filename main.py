@@ -19,7 +19,7 @@ tempAudioFile='temp\\audio.m4s'
 cookies=None
 
 # example: infos=[['BV1HfK3zPEHE',0]]
-infos=[]
+infos=[['BV1HfK3zPEHE',0]]
 
 #get qrcode
 def getQRCode():
@@ -62,7 +62,6 @@ def getCid(bvid):
 #get video&audio stream by cid
 def getStream(bvid,cid,quality):
     respUrl=requests.get('https://api.bilibili.com/x/player/wbi/playurl?from_client=BROWSER&cid='+cid+'&qn=125&fourk=1&fnver=0&fnval=4048&bvid='+bvid,headers=headers,cookies=cookies)
-    print(respUrl.text)
     plist=respUrl.json()
     streamUrlVideo=str(plist['data']['dash']['video'][0]['baseUrl'])
     streamUrlAudio=str(plist['data']['dash']['audio'][0]['baseUrl'])
@@ -90,11 +89,10 @@ def removeTempFile():
 login()
 
 for info in infos:
-    bvid=info[0]
-    quality=str(info[1]) #-1:360p -2:480p -3:720p -4:1080p
-    print(bvid,quality)
+    bvid=str(info[0])
+    quality=str(info[1])
     cid=getCid(bvid)
     streamUrl=getStream(bvid,cid,quality)
     downloadStream(streamUrl)
-    integrateStream('output\\BillUrl-'+time.strftime('%Y-%m-%d-%H-%M-%S',time.localtime())+'.mp4')
+    integrateStream('output\\'+bvid+'.mp4')
     removeTempFile()
